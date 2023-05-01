@@ -66,8 +66,8 @@ jobs:
           # username: aap_32
           key: ${{ secrets.SSH_KEY }}
           # key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
-          # passphrase: 291203
+          # passphrase: ${{ secrets.PASSPHRASE }}
+          passphrase: 291203
           script: |
             cd infra
             sudo docker-compose down
@@ -94,4 +94,3 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         # token: 5556732687:AAFSpEkTzPRUXvaFz2CYBnMHDVgy5rQMqfk
         message: ${{ github.workflow }} успешно выполнен!
-        
