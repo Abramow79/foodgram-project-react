@@ -67,7 +67,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           # key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
-          # passphrase: 291203
           script: |
             cd infra
             sudo docker-compose down
