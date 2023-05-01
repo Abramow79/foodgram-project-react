@@ -94,3 +94,4 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         # token: 5556732687:AAFSpEkTzPRUXvaFz2CYBnMHDVgy5rQMqfk
         message: ${{ github.workflow }} успешно выполнен!
+        
