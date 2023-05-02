@@ -4,9 +4,16 @@ from .models import (Favorite, Ingredient, IngredientRecipe, Recipe,
                      ShoppingCart, Tag)
 
 
+class IngredientAdmin(admin.ModelAdmin):
+    list_display = ('name', 'measurement_unit')
+    search_fields = ('name', )
+    list_filter = ('name', )
+    empty_value_display = '-пусто-'
+
+
 class IngredientInline(admin.TabularInline):
     model = IngredientRecipe
-    extra = 3
+    extra = 5
     min_num = 1
 
 
@@ -17,7 +24,7 @@ class RecipeAdmin(admin.ModelAdmin):
     search_fields = ('name', 'author', 'tags')
     list_filter = ('author', 'name', 'tags')
     inlines = (IngredientInline,)
-    empty_value_display = '-пусто-'
+    empty_value_display = 'пусто'
 
     def get_favorites(self, obj):
         return obj.favorites.count()
@@ -27,31 +34,7 @@ class RecipeAdmin(admin.ModelAdmin):
         return ', '.join([
             ingredients.name for ingredients
             in obj.ingredients.all()])
-    get_ingredients.short_description = 'Ингридиенты'
-
-
-class IngredientAdmin(admin.ModelAdmin):
-    """ Админ панель управление ингридиентами """
-    list_display = ('name', 'measurement_unit')
-    search_fields = ('name', )
-    list_filter = ('name', )
-    empty_value_display = '-пусто-'
-
-
-class TagAdmin(admin.ModelAdmin):
-    """ Админ панель управление тегами """
-    list_display = ('name', 'color', 'slug')
-    search_fields = ('name', 'slug')
-    list_filter = ('name', )
-    empty_value_display = '-пусто-'
-
-
-class FavoriteAdmin(admin.ModelAdmin):
-    """ Админ панель управление подписками """
-    list_display = ('user', 'recipe')
-    list_filter = ('user', 'recipe')
-    search_fields = ('user', 'recipe')
-    empty_value_display = '-пусто-'
+    get_ingredients.short_description = 'Ингредиенты'
 
 
 class ShoppingCartAdmin(admin.ModelAdmin):
@@ -62,7 +45,21 @@ class ShoppingCartAdmin(admin.ModelAdmin):
     empty_value_display = '-пусто-'
 
 
-admin.site.register(ShoppingCart, ShoppingCartAdmin)
-admin.site.register(Ingredient, IngredientAdmin)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('name', 'color', 'slug')
+    search_fields = ('name', 'slug')
+    list_filter = ('name', )
+    empty_value_display = '-пусто-'
+
+
+class FavoriteAdmin(admin.ModelAdmin):
+    list_display = ('user', 'recipe')
+    list_filter = ('user', 'recipe')
+    search_fields = ('user', 'recipe')
+    empty_value_display = 'пусто'
+
+
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Favorite, FavoriteAdmin)
+admin.site.register(ShoppingCart, ShoppingCartAdmin)
+admin.site.register(Ingredient, IngredientAdmin)
