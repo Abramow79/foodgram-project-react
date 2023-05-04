@@ -133,11 +133,6 @@ class RecipeReadSerializer(serializers.ModelSerializer):
             return False
         return obj.shopping_list.filter(user=request.user).exists()
 
-    @staticmethod
-    def get_ingredients(obj):
-        ingredients = IngredientRecipe.objects.filter(recipe=obj)
-        return IngredientRecipeSerializer(ingredients, many=True).data
-
 
 class RecipeShortSerializer(serializers.ModelSerializer):
     """ Сериализатор полей избранных рецептов и покупок """
