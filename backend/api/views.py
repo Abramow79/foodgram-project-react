@@ -12,7 +12,6 @@ from rest_framework.response import Response
 from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
                             ShoppingCart, Tag)
 from users.models import Follow, User
-
 from .filters import FilterIngredient, FilterRecipe
 from .pagination import CustomPagination
 from .permissions import AuthorsPermission
@@ -95,7 +94,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             shopping_list += (
                 f"\n{ingredient['ingredient__name']} "
                 f"({ingredient['ingredient__measurement_unit']}) - "
-                f"{ingredient['amount__']}")
+                f"{ingredient['ingredient__value']}")
         file = 'shopping_list.txt'
         response = HttpResponse(shopping_list, content_type='text/plain')
         response['Content-Disposition'] = f'attachment; filename="{file}.txt"'
@@ -107,7 +106,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             recipe__shopping_list__user=request.user
         ).order_by('ingredient__name').values(
             'ingredient__name', 'ingredient__measurement_unit'
-        ).annotate(ingredient_value=Sum('amount__'))
+        ).annotate(ingredient_value=Sum('amount'))
         return self.create_shopping_cart(ingredients)
 
     @action(detail=True, methods=['post'])
