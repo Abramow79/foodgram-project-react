@@ -1,5 +1,7 @@
 # Cервис Foodgram, "Продуктовый помощник"
 
+Проект доступен по адресу: <http://abramow.ddns.net/>
+
 ![ci/cd_foodgram workflow](https://github.com/Abramow79/foodgram-project-react/actions/workflows/main.yml/badge.svg)
 
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
