@@ -1,6 +1,6 @@
 # Cервис Foodgram, "Продуктовый помощник"
 
-![ci/cd_foodgram workflow](https://github.com/Abramow79/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
+![ci/cd_foodgram workflow](https://github.com/Abramow79/foodgram-project-react/actions/workflows/main.yml/badge.svg)
 
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/-Django-464646?style=flat-square&logo=Django)](https://www.djangoproject.com/)
