@@ -184,15 +184,25 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
             'id', 'tags', 'author', 'ingredients',
             'name', 'image', 'text', 'cooking_time',)
 
+    # @transaction.atomic
+    # def create(self, validated_data):
+    #     request = self.context.get('request')
+    #     tags = validated_data.pop('tags')
+    #     ingredients = validated_data.pop('ingredients')
+    #     recipe = Recipe.objects.create(author=request.user, **validated_data)
+    #     recipe.save()
+    #     recipe.tags.set(tags)
+    #     self.create_ingredients(recipe, ingredients)
+    #     return recipe
+
     @transaction.atomic
     def create(self, validated_data):
-        request = self.context.get('request')
-        tags = validated_data.pop('tags')
-        ingredients = validated_data.pop('ingredients')
-        recipe = Recipe.objects.create(author=request.user, **validated_data)
-        recipe.save()
-        recipe.tags.set(tags)
-        self.create_ingredients(recipe, ingredients)
+        author = self.context.get('request').user
+        tags_data = validated_data.pop('tags')
+        ingredients_data = validated_data.pop('ingredients')
+        recipe = Recipe.objects.create(author=author, **validated_data)
+        recipe.tags.set(tags_data)
+        self.add_ingredients(ingredients_data, recipe)
         return recipe
 
     # @transaction.atomic
