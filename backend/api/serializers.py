@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.shortcuts import get_object_or_404
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from drf_extra_fields.fields import Base64ImageField
@@ -183,6 +184,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
             'id', 'tags', 'author', 'ingredients',
             'name', 'image', 'text', 'cooking_time',)
 
+    @transaction.atomic
     def create(self, validated_data):
         request = self.context.get('request')
         tags = validated_data.pop('tags')
@@ -193,6 +195,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         self.create_ingredients(recipe, ingredients)
         return recipe
 
+    @transaction.atomic
     def update(self, instance, validated_data):
         instance.tags.clear()
         IngredientRecipe.objects.filter(recipe=instance).delete()
