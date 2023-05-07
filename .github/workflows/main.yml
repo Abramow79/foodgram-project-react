@@ -36,9 +36,7 @@ jobs:
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
-          # username: abramow79
           password: ${{ secrets.DOCKER_PASSWORD }}
-          # password: Zz!291203
 
       - name: Push backend to Docker Hub
         uses: docker/build-push-action@v2
@@ -62,11 +60,8 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
-          # host: 158.160.59.134
           username: ${{ secrets.USER }}
-          # username: aap_32
           key: ${{ secrets.SSH_KEY }}
-          # key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
             cd infra
@@ -90,7 +85,5 @@ jobs:
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
-        # to: 5086110869
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        # token: 5556732687:AAFSpEkTzPRUXvaFz2CYBnMHDVgy5rQMqfk
         message: ${{ github.workflow }} успешно выполнен!
