@@ -1,4 +1,3 @@
-from django.db import transaction
 from django.shortcuts import get_object_or_404
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from drf_extra_fields.fields import Base64ImageField
@@ -108,7 +107,6 @@ class IngredientRecipeSerializer(serializers.ModelSerializer):
 class RecipeReadSerializer(serializers.ModelSerializer):
     """ Сериализатор просмотра рецепта """
     author = UserSerializer(read_only=True, many=False)
-    # ingredients = IngredientRecipeSerializer(
     ingredients = IngredientsSerializer(
         many=True,
         source='ingredienttorecipe')
@@ -185,7 +183,6 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
             'id', 'tags', 'author', 'ingredients',
             'name', 'image', 'text', 'cooking_time',)
 
-    @transaction.atomic
     def create(self, validated_data):
         request = self.context.get('request')
         tags = validated_data.pop('tags')
@@ -196,14 +193,13 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         self.create_ingredients(recipe, ingredients)
         return recipe
 
-    @transaction.atomic
     def update(self, instance, validated_data):
         instance.tags.clear()
         IngredientRecipe.objects.filter(recipe=instance).delete()
+        instance.save()
         instance.tags.set(validated_data.pop('tags'))
         ingredients = validated_data.pop('ingredients')
         self.create_ingredients(instance, ingredients)
-        instance.save()
         return super().update(instance, validated_data)
 
     def to_representation(self, instance):
@@ -238,6 +234,19 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     'Количество ингредиентов должно быть больше 0')
         return ingredients
+
+    @staticmethod
+    def create_ingredients(recipe, ingredients):
+        ingredient_liist = []
+        for ingredient_data in ingredients:
+            ingredient_liist.append(
+                IngredientRecipe(
+                    ingredient=ingredient_data.pop('id'),
+                    amount=ingredient_data.pop('amount'),
+                    recipe=recipe,
+                )
+            )
+        IngredientRecipe.objects.bulk_create(ingredient_liist)
 
 
 class ShoppingCartSerializer(serializers.ModelSerializer):
