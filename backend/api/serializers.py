@@ -108,7 +108,8 @@ class IngredientRecipeSerializer(serializers.ModelSerializer):
 class RecipeReadSerializer(serializers.ModelSerializer):
     """ Сериализатор просмотра рецепта """
     author = UserSerializer(read_only=True, many=False)
-    ingredients = IngredientRecipeSerializer(
+    # ingredients = IngredientRecipeSerializer(
+    ingredients = IngredientsSerializer(
         many=True,
         source='ingredienttorecipe')
     tags = TagsSerializer(read_only=False, many=True)
@@ -237,19 +238,6 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     'Количество ингредиентов должно быть больше 0')
         return ingredients
-
-    @staticmethod
-    def create_ingredients(recipe, ingredients):
-        ingredient_liist = []
-        for ingredient_data in ingredients:
-            ingredient_liist.append(
-                IngredientRecipe(
-                    ingredient=ingredient_data.pop('id'),
-                    amount=ingredient_data.pop('amount'),
-                    recipe=recipe,
-                )
-            )
-        IngredientRecipe.objects.bulk_create(ingredient_liist)
 
 
 class ShoppingCartSerializer(serializers.ModelSerializer):
