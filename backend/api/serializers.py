@@ -158,11 +158,11 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         ingredients_liist = []
         if not ings:
             raise serializers.ValidationError(
-                'Отсутствуют ингридиенты')
+                'Отсутствуют ингредиенты')
         for ingredient in ings:
             if ingredient['id'] in ingredients_liist:
                 raise serializers.ValidationError(
-                    'Этот ингридиент уже добавлен')
+                    'Этот ингредиент уже добавлен')
             ingredients_liist.append(ingredient['id'])
         return ingredients
 
