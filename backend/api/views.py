@@ -19,7 +19,7 @@ from .permissions import AuthorsPermission
 from .serializers import (CreateRecipeSerializer, FavoriteSerializer,
                           IngredientsSerializer, RecipeReadSerializer,
                           ShoppingCartSerializer, SubscribeSerializer,
-                          TagsSerializer, UserSerializer)
+                          TagSerializer, UserSerializer)
 
 
 class UserViewSet(UserViewSet):
@@ -145,6 +145,6 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 class TagViewSet(viewsets.ModelViewSet):
     """ Вывод тегов """
     queryset = Tag.objects.all()
-    serializer_class = TagsSerializer
+    serializer_class = TagSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, )
     pagination_class = None
