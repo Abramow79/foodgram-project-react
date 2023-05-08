@@ -13,7 +13,7 @@ services:
 
 
   backend:
-  #  image: abramow79/foodgram_backend
+  # image: abramow79/foodgram_backend
     build: ../backend
     volumes:
       - static_value:/app/static/
