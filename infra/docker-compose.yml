@@ -9,7 +9,7 @@ services:
     #   POSTGRES_DB: "db"
     #   POSTGRES_HOST_AUTH_METHOD: "trust"
     env_file:
-      - .env
+      - ./.env
 
 
   backend:
@@ -21,7 +21,7 @@ services:
     depends_on:
       - db
     env_file:
-      - .env
+      - ./.env
     restart: always
     container_name: foodgram_backend
 
