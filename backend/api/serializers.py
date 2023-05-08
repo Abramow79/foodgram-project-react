@@ -94,7 +94,7 @@ class IngredientsSerializer(serializers.ModelSerializer):
 class IngredientRecipeSerializer(serializers.ModelSerializer):
     """ Сериализатор связи ингредиентов и рецепта """
     # id = serializers.PrimaryKeyRelatedField(
-    # queryset=Ingredient.objects.all())
+    #  queryset=Ingredient.objects.all())
     id = serializers.ReadOnlyField(
         source='ingredient.id')
     name = serializers.ReadOnlyField(source='ingredient.name')
