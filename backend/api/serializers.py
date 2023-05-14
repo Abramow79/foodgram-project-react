@@ -24,6 +24,13 @@ class UserSerializer(UserSerializer):
             return False
         return obj.following.filter(user=request.user).exists()
 
+    def validate(self, data):
+        """Запрещает пользователям изменять себе username на me."""
+        if data.get('username') == 'me':
+            raise serializers.ValidationError(
+                'Использовать имя me запрещено'
+            )
+
 
 class UserCreateSerializer(UserCreateSerializer):
     class Meta:
@@ -31,6 +38,23 @@ class UserCreateSerializer(UserCreateSerializer):
         fields = (
             'email', 'username', 'first_name',
             'last_name', 'password')
+
+    def validate(self, data):
+        """Запрещает пользователям присваивать себе username me
+        и использовать повторные username и email."""
+        if data.get('username') == 'me':
+            raise serializers.ValidationError(
+                'Использовать имя me запрещено'
+            )
+        if User.objects.filter(username=data.get('username')):
+            raise serializers.ValidationError(
+                'Пользователь с таким username уже существует'
+            )
+        if User.objects.filter(email=data.get('email')):
+            raise serializers.ValidationError(
+                'Пользователь с таким email уже существует'
+            )
+        return data
 
 
 class SubscribeSerializer(UserSerializer):
