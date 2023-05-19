@@ -95,7 +95,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             shopping_list += (
                 f"\n{ingredient['ingredient_name']} "
                 f"({ingredient['ingredient__measurement_unit']}) - "
-                f"{ingredient['ingredient__value']}")
+                f"{ingredient['ingredient_value']}")
         file = 'shopping_list.txt'
         response = HttpResponse(shopping_list, content_type='text/plain')
         response['Content-Disposition'] = f'attachment; filename="{file}.txt"'
