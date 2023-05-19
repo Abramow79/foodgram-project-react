@@ -105,8 +105,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def download_shopping_cart(self, request):
         ingredients = IngredientRecipe.objects.filter(
             recipe__shopping_list__user=request.user
-        ).order_by('ingredient__name').values(
-            'ingredient__name', 'ingredient__measurement_unit'
+        ).order_by('ingredient_name').values(
+            'ingredient_name', 'ingredient__measurement_unit'
         ).annotate(ingredient_value=Sum('amount'))
         return self.create_shopping_cart(ingredients)
 
